@@ -1,0 +1,117 @@
+
+/* Style global */
+* {
+    font-family: 'Roboto', Arial, sans-serif;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: linear-gradient(180deg, #0a2a43 0%, #1b3a5e 100%);
+    color: #f0f0f0;
+    line-height: 1.6;
+}
+
+/* Style des raccourcis clavier */
+kbd {
+    background-color: #2c3e50;
+    color: #ecf0f1;
+    padding: 3px 6px;
+    border-radius: 3px;
+    border: 1px solid #34495e;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Liens */
+a {
+    color: #dd1717;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #dd1717;
+    text-decoration: underline;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: #2c3e50;
+}
+
+th, td {
+    border: 1px solid #34495e;
+    padding: 10px;
+    text-align: left;
+    color: #ecf0f1;
+}
+
+th {
+    background-color: #3a506b;
+    font-weight: bold;
+}
+
+.menu {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    background-color: #1c2c3a;
+    text-align: center;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
+}
+
+.menu li {
+    display: inline-block;
+    margin: 0 15px;
+}
+
+.menu li a {
+    text-decoration: none;
+    color: #ecf0f1;
+    padding: 12px 20px;
+    display: inline-block;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.menu li a:hover {
+    background-color: #34495e;
+    color: #1abc9c;
+    border-radius: 5px;
+}
+#menu-bar, #view-screen, #compass, #fuel, #engine-temp, 
+#oil-pressure, #vsi, #airspeed, #altimeter, #attitude, 
+#turn-coordinator, #rpm, #radio-com, #radio-nav, 
+#flaps, #gear, #lights, #magnetos {
+    display: none;
+}
+#simulator {
+    grid-template-columns: 322fr 343fr 334fr 56fr
+    grid-template-rows: 41fr 511fr 128fr 131fr
+}
+#vitesse {
+    grid-column: 1;
+    grid-row: 2 / 3;
+  }
+#bille {
+    grid-column: 1;
+    grid-row: 3 / 4;
+  }
+#horizon-artificiel {
+    grid-column: 2;
+    grid-row: 2 / 3;
+  }
+#indicateur-de-cap {
+    grid-column: 2;
+    grid-row: 3 / 4;
+  }
+#altitude {
+    grid-column: 3;
+    grid-row: 2 / 3;
+  }
+#varimoetre {
+    grid-column: 3;
+    grid-row: 3 / 4;
+  }
