@@ -1,4 +1,4 @@
-<<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -12,7 +12,7 @@
               "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.174.0/examples/jsm/"
           }
         }
-        </script>
+    </script>
 </head>
 <body>
     <nav>
@@ -24,7 +24,7 @@
     <main id="simulator">
         <img src="img/fichier_image_maquette.png" alt="maquette d'un simulateur de vol" /> 
         <div id="menu-bar" class="top-bar">Menu</div>
-        <div id="view-screen" class="screen">Vue</div>
+        <canvas id="view" class="screen"></canvas> <!-- Remplacement de la balise -->
         <div id="compass" class="instrument">Compass</div>
         <div id="fuel" class="instrument">Fuel</div>
         <div id="engine-temp" class="instrument">Temp</div>
@@ -42,5 +42,42 @@
         <div id="lights" class="control">Lights</div>
         <div id="magnetos" class="control">Mags</div>
     </main>
+
+    <script type="module">
+        import * as THREE from 'three';
+    
+        const CAM_FOV = 60, CAM_NEAR = 0.1, CAM_FAR = 1000;
+        const view = document.getElementById('view');
+    
+        function updateCanvasSize() {
+            const rect = view.getBoundingClientRect();
+            view.width = rect.width;
+            view.height = rect.height;
+        }
+    
+        updateCanvasSize();
+    
+        const camera = new THREE.PerspectiveCamera(CAM_FOV, view.width / view.height, CAM_NEAR, CAM_FAR);
+        camera.position.z = 5;
+    
+        const scene = new THREE.Scene();
+        const renderer = new THREE.WebGLRenderer({ canvas: view, antialias: true });
+    
+        function resizeRenderer() {
+            const rect = view.getBoundingClientRect();
+            camera.aspect = rect.width / rect.height;
+            camera.updateProjectionMatrix();
+            renderer.setSize(rect.width, rect.height);
+        }
+    
+        window.addEventListener('resize', resizeRenderer);
+        resizeRenderer();
+    
+        renderer.setAnimationLoop(() => {
+            renderer.render(scene, camera);
+        });
+    
+    </script>
 </body>
 </html>
+
