@@ -76,6 +76,32 @@
         renderer.setAnimationLoop(() => {
             renderer.render(scene, camera);
         });
+        // Définition des constantes pour les couleurs
+const COLOR_SKY = 0x87CEEB; // Bleu ciel
+const COLOR_GROUND = 0x228B22; // Vert forêt
+const COLOR_AMBIENT_LIGHT = 0xFFFFFF; // Blanc
+
+// Définition de la constante pour la taille du sol
+const GROUND_SIZE = 10000;
+
+// Modification de la couleur du fond de la scène
+scene.background = new THREE.Color(COLOR_SKY);
+
+// Ajout du sol à la scène
+const ground = new THREE.Mesh(
+  new THREE.PlaneGeometry(GROUND_SIZE, GROUND_SIZE),
+  new THREE.MeshStandardMaterial({ color: COLOR_GROUND })
+);
+ground.rotation.x = -Math.PI / 2; // Permet d'orienter le sol à l'horizontale
+scene.add(ground);
+
+// Ajout de la lumière ambiante
+const light = new THREE.AmbientLight(COLOR_AMBIENT_LIGHT);
+scene.add(light);
+
+// Élévation de la caméra au-dessus du sol
+camera.position.y = 100;
+
     
     </script>
 </body>
