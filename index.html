@@ -4,129 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simulateur de vol TEGM</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" href="style.css">
     <script type="importmap">
         {
-          "imports": {
-              "three": "https://cdn.jsdelivr.net/npm/three@0.174.0/build/three.module.js",
-              "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.174.0/examples/jsm/"
-          }
+            "imports": {
+                "three": "https://cdn.jsdelivr.net/npm/three@0.174.0/build/three.module.js",
+                "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.174.0/examples/jsm/"
+            }
         }
     </script>
 </head>
 <body>
     <nav>
-        <ul>
+        <ul class="menu">
             <li><a href="index.html">Accueil</a></li>
             <li><a href="manual.html">Manuel</a></li>
         </ul>
     </nav>
+    
     <main id="simulator">
-        <img src="img/fichier_image_maquette.png" alt="maquette d'un simulateur de vol" /> 
-        <div id="menu-bar" class="top-bar">Menu</div>
-        <canvas id="view" class="screen"></canvas> <!-- Remplacement de la balise -->
-        <div id="compass" class="instrument">Compass</div>
-        <div id="fuel" class="instrument">Fuel</div>
-        <div id="engine-temp" class="instrument">Temp</div>
-        <div id="oil-pressure" class="instrument">Oil P</div>
-        <div id="vsi" class="instrument">VSI</div>
-        <div id="airspeed" class="instrument">Airspeed</div>
-        <div id="altimeter" class="instrument">Altimeter</div>
-        <div id="attitude" class="instrument">Attitude</div>
-        <div id="turn-coordinator" class="instrument">Turn</div>
-        <div id="rpm" class="instrument">RPM</div>
-        <div id="radio-com" class="radio">COM</div>
-        <div id="radio-nav" class="radio">NAV</div>
-        <div id="flaps" class="control">Flaps</div>
-        <div id="gear" class="control">Gear</div>
-        <div id="lights" class="control">Lights</div>
-        <div id="magnetos" class="control">Mags</div>
+        <canvas id="view" class="screen"></canvas>
+        
+        <!-- Horizon Artificiel -->
+        <div id="horizon-container">
+            <img id="horizon-back" src="img/horizon_back.png" alt="Horizon Back">
+            <img id="horizon-overlay" src="img/horizon_mech.png" alt="Horizon Overlay">
+            <img id="horizon-circle" src="img/horizon_circle.png" alt="Horizon Circle">
+            <img id="horizon-frame" src="img/horizon_frame.png" alt="Horizon Frame">
+        </div>
     </main>
-
-    <script type="module">
-        import * as THREE from 'three';
     
-        const CAM_FOV = 60, CAM_NEAR = 0.1, CAM_FAR = 1000;
-        const view = document.getElementById('view');
-    
-        function updateCanvasSize() {
-            const rect = view.getBoundingClientRect();
-            view.width = rect.width;
-            view.height = rect.height;
-        }
-    
-        updateCanvasSize();
-    
-        const camera = new THREE.PerspectiveCamera(CAM_FOV, view.width / view.height, CAM_NEAR, CAM_FAR);
-        camera.position.z = 5;
-    
-        const scene = new THREE.Scene();
-        const renderer = new THREE.WebGLRenderer({ canvas: view, antialias: true });
-    
-        function resizeRenderer() {
-            const rect = view.getBoundingClientRect();
-            camera.aspect = rect.width / rect.height;
-            camera.updateProjectionMatrix();
-            renderer.setSize(rect.width, rect.height);
-        }
-    
-        window.addEventListener('resize', resizeRenderer);
-        resizeRenderer();
-    
-        renderer.setAnimationLoop(() => {
-            renderer.render(scene, camera);
-        });
-        import { FlyControls } from 'three/addons/controls/FlyControls.js';
-
-// Définition des constantes pour les couleurs
-const COLOR_SKY = 0x87CEEB; // Bleu ciel
-const COLOR_GROUND = 0x228B22; // Vert forêt
-const COLOR_AMBIENT_LIGHT = 0xFFFFFF; // Blanc
-
-// Définition de la constante pour la taille du sol
-const GROUND_SIZE = 10000;
-const ROLL_SPEED = 0.5; // Vitesse de roulis pour le contrôle
-
-// Modification de la couleur du fond de la scène
-scene.background = new THREE.Color(COLOR_SKY);
-
-// Ajout du sol à la scène
-const ground = new THREE.Mesh(
-  new THREE.PlaneGeometry(GROUND_SIZE, GROUND_SIZE),
-  new THREE.MeshStandardMaterial({ color: COLOR_GROUND })
-);
-ground.rotation.x = -Math.PI / 2; // Permet d'orienter le sol à l'horizontale
-scene.add(ground);
-
-// Ajout de la lumière ambiante
-const light = new THREE.AmbientLight(COLOR_AMBIENT_LIGHT);
-scene.add(light);
-
-// Élévation de la caméra au-dessus du sol
-camera.position.y = 100;
-
-// Initialisation des contrôles FlyControls
-const controls = new FlyControls(camera, document.body);
-const clock = new THREE.Clock();
-
-controls.dragToLook = true;
-controls.rollSpeed = ROLL_SPEED;
-
-// Boucle de rendu
-function animate() {
-  requestAnimationFrame(animate);
-  
-  // Actualisation du contrôle à chaque frame
-  const delta = clock.getDelta();
-  controls.update(delta);
-  
-  renderer.render(scene, camera);
-}
-
-animate();
-camera.position.set(0, 100, 0); // Recentre la caméra au milieu de la scène
-controls.lookAt(new THREE.Vector3(0, 100, -1)); // Oriente la caméra vers l'avant
-    </script>
+    <script type="module" src="simulator.js"></script>
 </body>
 </html>
 
